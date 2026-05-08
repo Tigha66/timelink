@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import GoogleLoginButton from '../components/common/GoogleLoginButton';
 
 export default function Login() {
   const { login } = useAuth();
@@ -9,6 +10,13 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Handle Google OAuth success
+  const handleGoogleSuccess = async (token, user) => {
+    localStorage.setItem('token', token);
+    // Reload to pick up auth state
+    window.location.href = '/dashboard';
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,6 +40,12 @@ export default function Login() {
           <h2 className="text-2xl font-bold mb-1">Welcome back</h2>
           <p className="text-gray-500 mb-6">Sign in to your account</p>
           {error && <div className="bg-red-50 text-red-700 px-4 py-2 rounded-lg text-sm mb-4">{error}</div>}
+          <GoogleLoginButton onSuccess={handleGoogleSuccess} />
+          <div className="flex items-center gap-3 my-4">
+            <div className="flex-1 h-px bg-gray-200" />
+            <span className="text-xs text-gray-400 font-medium">or</span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="label">Email</label>

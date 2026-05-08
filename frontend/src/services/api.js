@@ -1,6 +1,12 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: '/api' });
+const api = axios.create({ baseURL: import.meta.env.VITE_API_URL || '/api' });
+
+if (import.meta.env.VITE_API_URL) {
+  api.defaults.baseURL = import.meta.env.VITE_API_URL.endsWith('/') ? import.meta.env.VITE_API_URL.slice(0, -1) + '/api' : import.meta.env.VITE_API_URL + '/api';
+} else {
+  api.defaults.baseURL = '/api';
+}
 
 api.interceptors.request.use(config => {
   const token = localStorage.getItem('token');

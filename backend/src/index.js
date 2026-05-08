@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.js';
+import googleAuthRoutes from './routes/googleAuth.js';
 import eventRoutes from './routes/events.js';
 import availabilityRoutes from './routes/availability.js';
 import bookingRoutes from './routes/bookings.js';
@@ -21,6 +22,7 @@ app.get('/api/health', (req, res) => res.json({ status: 'ok', timestamp: new Dat
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/auth', googleAuthRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/availability', availabilityRoutes);
 app.use('/api/bookings', bookingRoutes);
